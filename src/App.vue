@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { ref } from 'vue'
+import { RouterView } from 'vue-router'
+const theme = ref('light')
+const toggleTheme = () => {
+  console.log(theme)
+  theme.value = theme.value === 'light' ? 'dark' : 'light'
+}
 </script>
 
 <template>
@@ -10,10 +16,10 @@ import { RouterLink, RouterView } from 'vue-router'
       <h1 class="text-2xl font-bold">Where in the world?</h1>
     </div>
     <nav>
-      <RouterLink to="/" class="">Home</RouterLink>
-      <RouterLink to="/about" class="ml-4">About</RouterLink>
-      <span class="ml-4"> <ion-icon name="moon-outline"></ion-icon> Dark Mode </span>
-      <span class="ml-4"> <ion-icon name="sunny-outline"></ion-icon> Light Mode </span>
+      <button class="ml-4" @click="toggleTheme">
+        <ion-icon :name="theme === 'light' ? 'moon-outline' : 'sunny-outline'"></ion-icon>
+        {{ theme === 'light' ? 'Dark Mode' : 'Light Mode' }}
+      </button>
     </nav>
   </header>
   <div class="w-full h-14"></div>

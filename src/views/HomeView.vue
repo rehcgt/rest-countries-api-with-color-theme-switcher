@@ -5,6 +5,7 @@
         type="text"
         placeholder="Search for a country..."
         class="w-1/2 border p-4 rounded-lg"
+        @keyup="searchCountries"
       />
     </div>
     <div class="">
@@ -35,11 +36,24 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import CountryCard from '../components/CountryCard.vue'
+interface Country {
+  name: {
+    common: string
+  }
+  flags: {
+    svg: string
+  }
+  cca3: string
+  region: string
+  capital: string
+  population: number
+}
 
-const countries = ref<any[]>([])
+const countries = ref<Country[]>([])
+let allcountries: Country[] = []
 const router = useRouter()
 
-const handleCountrySelect = (country: any) => {
+const handleCountrySelect = (country: Country) => {
   router.push({ name: 'CountryDetails', params: { cca3: country.cca3 } })
 }
 
@@ -50,12 +64,23 @@ const fetchCountries = async () => {
         fields: 'name,flags,cca3,region,capital,population'
       }
     })
-    countries.value = shuffleArray(response.data).slice(0, 8)
+    allcountries = response.data
+    countries.value = shuffleArray(allcountries).slice(0, 8)
     console.log(response)
     console.log(countries)
   } catch (error) {
     console.error(error)
   }
+}
+
+const searchCountries = (event: any) => {
+  const searchTerm = event.target.value.toLowerCase()
+  console.log(searchTerm)
+  countries.value = allcountries
+    .filter((country: Country) => {
+      return country.name.common.toLowerCase().includes(searchTerm)
+    })
+    .slice(0, 8)
 }
 
 const shuffleArray = (array: any[]): any[] => {
