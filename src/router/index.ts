@@ -18,8 +18,8 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/country/:countryName',
-      name: 'CountryDetail',
+      path: '/country/:cca3',
+      name: 'CountryDetails',
       component: () => import('../views/CountryDetails.vue')
     }
   ]
