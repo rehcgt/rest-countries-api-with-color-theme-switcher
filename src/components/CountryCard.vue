@@ -1,7 +1,7 @@
 <template>
   <div
     @click="handleClick"
-    class="cursor-pointer h-auto border p-0 rounded-lg flex flex-col items-center"
+    class="cursor-pointer h-auto p-0 rounded-lg flex flex-col items-center dark:bg-dark-blue"
   >
     <img :src="country.flags.svg" alt="" class="w-full h-48 object-cover" />
     <div class="w-[90%] mx-auto mb-8">

@@ -1,15 +1,21 @@
 <template>
   <div class="flex flex-row">
     <div class="flex flex-1">
-      <input
-        type="text"
-        placeholder="Search for a country..."
-        class="w-1/2 border p-4 rounded-lg dark:bg-slate-900"
-        @keyup="searchCountries"
-      />
+      <div class="relative w-1/2">
+        <ion-icon
+          name="search"
+          class="dark:text-white text-2xl cursor-pointer absolute top-[15px] left-4"
+        ></ion-icon>
+        <input
+          type="text"
+          placeholder="Search for a country..."
+          class="w-full p-4 pl-12 rounded-lg dark:bg-dark-blue"
+          @keyup="searchCountries"
+        />
+      </div>
     </div>
     <div class="">
-      <select class="border p-4 rounded-lg dark:bg-slate-900" @change="filterByRegion">
+      <select class="p-4 rounded-lg dark:bg-dark-blue" @change="filterByRegion">
         <option value="">Filter by Region</option>
         <option v-for="region in uniqueRegions" :key="region" :value="region">{{ region }}</option>
       </select>
