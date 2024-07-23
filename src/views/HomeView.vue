@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="pt-8">
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid xs:grid-cols-1 md:grid-cols-4 gap-4">
       <CountryCard
         v-for="country in countries"
         :key="country.cca3"

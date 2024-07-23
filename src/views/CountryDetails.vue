@@ -6,15 +6,15 @@
     <ion-icon name="arrow-back-outline" class="align-middle"></ion-icon>
     Back
   </button>
-  <div class="flex justify-stretch h-[600px]">
-    <div class="flex-1">
+  <div class="grid xs:grid-cols-1 md:grid-cols-2 justify-stretch h-[600px]">
+    <div>
       <img class="max-w-full max-h-full" :src="country?.flags?.svg || ''" alt="" />
     </div>
-    <div class="p-8 flex-1">
+    <div class="p-8">
       <h1 class="font-bold text-2xl my-6">
         {{ country?.name?.common || '' }}
       </h1>
-      <div class="grid grid-cols-2">
+      <div class="grid md:grid-cols-2 xs:grid-cols-1">
         <div><strong>Official Name: </strong>{{ country?.name?.official || '' }}</div>
         <div>
           <strong>Top Level Domain: </strong>
