@@ -2,52 +2,41 @@
   <button @click="goBack" class="py-2 px-4 mb-6 rounded-lg mr-2 dark:bg-dark-blue">Back</button>
   <div class="flex justify-stretch h-[600px]">
     <div class="flex-1">
-      <img
-        class="max-w-full max-h-full"
-        :src="country != null ? (country as any).flags.svg : ''"
-        alt=""
-      />
+      <img class="max-w-full max-h-full" :src="country?.flags?.svg || ''" alt="" />
     </div>
     <div class="p-8 flex-1">
       <h1 class="font-bold text-2xl my-6">
-        {{ country != null ? (country as any).name.common : '' }}
+        {{ country?.name?.common || '' }}
       </h1>
       <div class="grid grid-cols-2">
+        <div><strong>Official Name: </strong>{{ country?.name?.official || '' }}</div>
+        <div><strong>Top Level Domain: </strong>{{ country?.tld[0] || '' }}</div>
         <div>
-          <strong>Official Name: </strong
-          >{{ country != null ? (country as any).name.official : '' }}
-        </div>
-        <div>
-          <strong>Top Level Domain: </strong>{{ country != null ? (country as any).tld[0] : '' }}
-        </div>
-        <div>
-          <strong>Population: </strong
-          >{{ country != null ? Number((country as any).population).toLocaleString() : '' }}
+          <strong>Population: </strong>
+          {{ Number(country?.population)?.toLocaleString() || '' }}
         </div>
         <div>
           <strong>Currencies: </strong>
-          {{
-            country != null && (country as any).currencies != null
-              ? (Object.values((country as any).currencies) as any)[0].name
-              : ''
-          }}
+          <span v-for="(currency, index) in Object.values(country?.currencies || {})" :key="index">
+            {{ currency.name }} ({{ currency.symbol }})<span
+              v-if="index < Object.values(country?.currencies || {}).length - 1"
+              >,
+            </span>
+          </span>
         </div>
-        <div><strong>Region: </strong>{{ country != null ? (country as any).region : '' }}</div>
+        <div><strong>Region: </strong>{{ country?.region || '' }}</div>
         <div>
-          <strong>Languages: </strong
-          >{{
-            country != null && (country as any).languages != null
-              ? Object.values((country as any).languages).join(', ')
-              : ''
-          }}
+          <strong>Languages: </strong>
+          <span v-for="(language, index) in Object.values(country?.languages || {})" :key="index">
+            {{ language
+            }}<span v-if="index < Object.values(country?.languages || {}).length - 1">, </span>
+          </span>
         </div>
-        <div>
-          <strong>Subregion: </strong>{{ country != null ? (country as any).subregion : '' }}
-        </div>
+        <div><strong>Subregion: </strong>{{ country?.subregion || '' }}</div>
         <div>
           <strong>Capital: </strong
           >{{
-            country != null && (country as any).capital != null ? (country as any).capital[0] : ''
+            Array.isArray(country?.capital) && country.capital.length > 0 ? country.capital[0] : ''
           }}
         </div>
       </div>
@@ -70,8 +59,9 @@
 import axios from 'axios'
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import type { Country } from '../interfaces/Country'
 
-const country = ref(null)
+const country = ref<Country>()
 const route = useRoute()
 const router = useRouter()
 

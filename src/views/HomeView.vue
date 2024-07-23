@@ -38,19 +38,7 @@ import axios from 'axios'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import CountryCard from '../components/CountryCard.vue'
-
-interface Country {
-  name: {
-    common: string
-  }
-  flags: {
-    svg: string
-  }
-  cca3: string
-  region: string
-  capital: string
-  population: number
-}
+import type { Country } from '../interfaces/Country'
 
 const countries = ref<Country[]>([])
 const allcountries = ref<Country[]>([])
