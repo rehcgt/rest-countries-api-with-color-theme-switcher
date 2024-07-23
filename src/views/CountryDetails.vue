@@ -1,7 +1,7 @@
 <template>
   <button
     @click="goBack"
-    class="py-2 px-4 mb-6 mr-2 rounded dark:bg-dark-blue dark:shadow-xl dark:shadow-black"
+    class="py-2 px-4 mb-6 mr-2 rounded shadow-xl shadow-gray-400 dark:bg-dark-blue dark:shadow-black"
   >
     <ion-icon name="arrow-back-outline" class="align-middle"></ion-icon>
     Back
@@ -16,7 +16,10 @@
       </h1>
       <div class="grid grid-cols-2">
         <div><strong>Official Name: </strong>{{ country?.name?.official || '' }}</div>
-        <div><strong>Top Level Domain: </strong>{{ country?.tld[0] || '' }}</div>
+        <div>
+          <strong>Top Level Domain: </strong>
+          {{ Array.isArray(country?.tld) && country.tld.length > 0 ? country.tld[0] : '' }}
+        </div>
         <div>
           <strong>Population: </strong>
           {{ Number(country?.population)?.toLocaleString() || '' }}
@@ -40,8 +43,8 @@
         </div>
         <div><strong>Subregion: </strong>{{ country?.subregion || '' }}</div>
         <div>
-          <strong>Capital: </strong
-          >{{
+          <strong>Capital: </strong>
+          {{
             Array.isArray(country?.capital) && country.capital.length > 0 ? country.capital[0] : ''
           }}
         </div>
@@ -51,7 +54,7 @@
         <button
           v-for="border in country != null ? (country as any).borders : []"
           :key="border"
-          class="py-2 px-4 mb-6 mx-1 rounded ring-1 ring-dark-gray dark:bg-dark-blue dark:shadow-xl dark:shadow-black"
+          class="py-2 px-4 mb-6 mx-1 rounded dark:bg-dark-blue shadow-xl shadow-gray-400 dark:shadow-black"
           @click="handleBorderCountrySelect(border)"
         >
           {{ border }}

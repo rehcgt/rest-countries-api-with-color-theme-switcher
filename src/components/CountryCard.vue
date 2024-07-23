@@ -3,9 +3,11 @@
     @click="handleClick"
     class="cursor-pointer h-auto p-0 rounded-lg flex flex-col items-center dark:bg-dark-blue bg-white"
   >
-    <img :src="country.flags.svg" alt="" class="w-full h-48 object-cover" />
+    <img :src="country.flags.svg" alt="" class="w-full h-48 object-cover rounded-t" />
     <div class="w-[90%] mx-auto mb-8">
-      <p class="text-left text-2xl w-full font-bold size-4 my-6">{{ country.name.common }}</p>
+      <p class="text-left text-2xl w-full font-bold size-4 my-6 h-auto">
+        {{ country.name.common }}
+      </p>
       <p class="w-full text-left size-3 my-3">
         <strong>Population: </strong>{{ Number(country.population).toLocaleString() }}
       </p>
