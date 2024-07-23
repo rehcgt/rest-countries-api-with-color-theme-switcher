@@ -1,7 +1,5 @@
 <template>
-  <button @click="goBack" class="border border-gray-600 py-2 px-4 mb-6 rounded-lg mr-2">
-    Back
-  </button>
+  <button @click="goBack" class="py-2 px-4 mb-6 rounded-lg mr-2 dark:bg-dark-blue">Back</button>
   <div class="flex justify-stretch h-[600px]">
     <div class="flex-1">
       <img
@@ -28,18 +26,29 @@
         </div>
         <div>
           <strong>Currencies: </strong>
-          {{ country != null ? (Object.values((country as any).currencies) as any)[0].name : '' }}
+          {{
+            country != null && (country as any).currencies != null
+              ? (Object.values((country as any).currencies) as any)[0].name
+              : ''
+          }}
         </div>
         <div><strong>Region: </strong>{{ country != null ? (country as any).region : '' }}</div>
         <div>
           <strong>Languages: </strong
-          >{{ country != null ? Object.values((country as any).languages).join(', ') : '' }}
+          >{{
+            country != null && (country as any).languages != null
+              ? Object.values((country as any).languages).join(', ')
+              : ''
+          }}
         </div>
         <div>
           <strong>Subregion: </strong>{{ country != null ? (country as any).subregion : '' }}
         </div>
         <div>
-          <strong>Capital: </strong>{{ country != null ? (country as any).capital[0] : '' }}
+          <strong>Capital: </strong
+          >{{
+            country != null && (country as any).capital != null ? (country as any).capital[0] : ''
+          }}
         </div>
       </div>
       <div class="mt-6">
