@@ -1,5 +1,11 @@
 <template>
-  <button @click="goBack" class="py-2 px-4 mb-6 rounded-lg mr-2 dark:bg-dark-blue">Back</button>
+  <button
+    @click="goBack"
+    class="py-2 px-4 mb-6 mr-2 rounded dark:bg-dark-blue dark:shadow-xl dark:shadow-black"
+  >
+    <ion-icon name="arrow-back-outline" class="align-middle"></ion-icon>
+    Back
+  </button>
   <div class="flex justify-stretch h-[600px]">
     <div class="flex-1">
       <img class="max-w-full max-h-full" :src="country?.flags?.svg || ''" alt="" />
@@ -45,7 +51,7 @@
         <button
           v-for="border in country != null ? (country as any).borders : []"
           :key="border"
-          class="border border-gray-600 p-2 rounded-lg mr-2"
+          class="py-2 px-4 mb-6 mx-1 rounded ring-1 ring-dark-gray dark:bg-dark-blue dark:shadow-xl dark:shadow-black"
           @click="handleBorderCountrySelect(border)"
         >
           {{ border }}
