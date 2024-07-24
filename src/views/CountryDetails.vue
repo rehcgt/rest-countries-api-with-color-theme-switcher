@@ -79,7 +79,7 @@ const fetchCountryData = async () => {
   try {
     const response = await axios.get(`https://restcountries.com/v3.1/alpha/${route.params.cca3}`)
     country.value = response.data[0]
-    if (country.value.borders) {
+    if (country.value?.borders) {
       const borders = await Promise.all(
         country.value.borders.map(async (border) => {
           const res = await axios.get(`https://restcountries.com/v3.1/alpha/${border}`)
