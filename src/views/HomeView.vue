@@ -43,6 +43,8 @@ import type { Country } from '../interfaces/Country'
 const countries = ref<Country[]>([])
 const allcountries = ref<Country[]>([])
 const router = useRouter()
+const selectedRegion = ref('')
+const maxResults = 8
 
 const uniqueRegions = computed(() => {
   const regions = allcountries.value.map((country) => country.region)
@@ -60,8 +62,8 @@ const fetchCountries = async () => {
         fields: 'name,flags,cca3,region,capital,population'
       }
     })
-    allcountries.value = response.data // Usa .value aquí
-    countries.value = shuffleArray(allcountries.value).slice(0, 8) // Y aquí
+    allcountries.value = response.data
+    countries.value = shuffleArray(allcountries.value).slice(0, maxResults)
   } catch (error) {
     console.error(error)
   }
@@ -70,18 +72,23 @@ const fetchCountries = async () => {
 const searchCountries = (event: any) => {
   const searchTerm = event.target.value.toLowerCase()
   countries.value = allcountries.value
-    .filter((country: Country) => country.name.common.toLowerCase().includes(searchTerm))
-    .slice(0, 8)
+    .filter((country: Country) => {
+      const matchesSearchTerm = country.name.common.toLowerCase().includes(searchTerm)
+      const matchesRegion = selectedRegion.value ? country.region === selectedRegion.value : true
+      return matchesSearchTerm && matchesRegion
+    })
+    .slice(0, maxResults)
 }
 
 const filterByRegion = (event: any) => {
   const region = event.target.value
+  selectedRegion.value = region
   if (region) {
     countries.value = allcountries.value
       .filter((country: Country) => country.region === region)
-      .slice(0, 8)
+      .slice(0, maxResults)
   } else {
-    countries.value = shuffleArray(allcountries.value).slice(0, 8)
+    countries.value = shuffleArray(allcountries.value).slice(0, maxResults)
   }
 }
 

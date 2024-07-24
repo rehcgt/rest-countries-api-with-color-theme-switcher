@@ -52,12 +52,12 @@
       <div class="mt-6">
         <strong>Border Countries: </strong>
         <button
-          v-for="border in country != null ? (country as any).borders : []"
-          :key="border"
+          v-for="borderCountry in borderCountries"
+          :key="borderCountry.cca3"
           class="py-2 px-4 mb-6 mx-1 rounded dark:bg-dark-blue shadow-xl shadow-gray-400 dark:shadow-black"
-          @click="handleBorderCountrySelect(border)"
+          @click="handleBorderCountrySelect(borderCountry.cca3)"
         >
-          {{ border }}
+          {{ borderCountry.name }}
         </button>
       </div>
     </div>
@@ -72,12 +72,22 @@ import type { Country } from '../interfaces/Country'
 
 const country = ref<Country>()
 const route = useRoute()
+const borderCountries = ref<{ name: string; cca3: string }[]>([])
 const router = useRouter()
 
 const fetchCountryData = async () => {
   try {
     const response = await axios.get(`https://restcountries.com/v3.1/alpha/${route.params.cca3}`)
     country.value = response.data[0]
+    if (country.value.borders) {
+      const borders = await Promise.all(
+        country.value.borders.map(async (border) => {
+          const res = await axios.get(`https://restcountries.com/v3.1/alpha/${border}`)
+          return { name: res.data[0].name.common, cca3: border }
+        })
+      )
+      borderCountries.value = borders
+    }
   } catch (error) {
     console.error(error)
   }
